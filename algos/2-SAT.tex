@@ -1,0 +1,83 @@
+\documentclass[titlepage, 12pt]{article}
+\usepackage[parfill]{parskip}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+
+\begin{document}
+	
+	\title{2 - SAT}
+	
+	\author{Sai Sandeep}
+	
+	\date{\today}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{Introduction}
+	SAT (Boolean satisfiability problem) is the problem of assigning values to boolean variables such that it satisfies a given CNF (Conjunctive Normal Form) equation.
+	
+	\subsection{Conjunctive Normal Form (CNF)}
+	
+	CNF is a conjunction of 2 or more clauses, where each clause is a disjunction of variables.
+	
+	Example: $ (a \lor b \lor c) \land (\lnot b \lor c) $
+	
+	\subsection{2 - SAT}
+	
+	2 - SAT is a restriction of the SAT problem, where each clause consists of exactly 2 literals.
+
+	Example: 
+	
+	\begin{enumerate}
+	
+	\item $ (a \lor b) \land (b \lor c) $
+	
+	\item $ (a \lor b) \land (a \lor \lnot b) $
+	
+	\end{enumerate}
+	
+	\section{Solution}
+	
+	\subsection{Naive}
+	
+	The naive solution would be to test out $true$ and $false$ for each variable. The time complexity would be $ O(2^n) $.
+
+	\subsection{Using graphs}
+
+	The algorithm would involve the following steps.
+
+	\begin{enumerate}
+
+	\item If there are $n$ variables in the graph, create a graph containing $2n$ variables, with the ith nodes $2i$ and $2i+1$ corresponding to the $i^{th}$ variable and its negation.
+	
+	\item For each clause $(a \lor b)$, add an edge from $\lnot a$ and $b$.
+	
+	\item Find strongly connected components (SCCs) of the graph using Kosaraju's algorithm.
+	
+	\item On the resulting component assignment, if $a$ and $\lnot a$ belong to the same component, there is no solution, else the assignment for $a$ can be found as $Component(a) > Component(\lnot a)$
+	
+	\end{enumerate}
+			
+	\section{Problems}
+	
+	\begin{enumerate}
+	
+	\item \href{https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1260}{UVa -- Manhattan}
+	
+	\end{enumerate}
+	
+	\section{References}
+	
+	\begin{enumerate}
+	
+	\item \href{https://cp-algorithms.com/graph/2SAT.html}{CP - Algorithms}
+	
+	\item \href{https://codeforces.com/blog/entry/16205}{Codeforces}
+	
+	\end{enumerate}
+	
+\end{document}
