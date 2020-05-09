@@ -28,9 +28,9 @@
 		
 		\textbf{\LARGE Notes on}\\[\baselineskip]
 		
-		\textbf{\textcolor{teal}{\huge Kinematic Modeling in 2D}}\\[\baselineskip]
+		\textbf{\textcolor{teal}{\huge Vehicle Dynamic Modeling}}\\[\baselineskip]
 		
-		{\Large \textit{Vehicle Dynamic Modeling}}
+		{\Large \textit{Introduction to Self Driving Cars}}
 		
 		\vfill
 		
@@ -208,5 +208,70 @@
 	\frac{rw\textsubscript{1,k} - rw\textsubscript{2,k}}{2l}
 	)\delta{t}
 	$
+
+	\section{Bicycle Kinematic Model}
+	
+	$\delta$ is the angle made by the front tire with the axis, and $\theta$ is that made by the line between ICR and front tire.
+	
+	\subsection{Rear Axle Bicycle Model}
+	
+	$
+	\dot{x\textsubscript{r}}
+	=
+	v\cos{\theta}
+	$
+
+	$
+	\dot{y\textsubscript{r}}
+	=
+	v\sin{\theta}
+	$
+	
+	$
+	\dot{\theta}
+	=
+	\frac{v\tan{\delta}}{L}
+	$
+
+	\subsection{Front Wheel Model}
+	
+	$
+	\dot{x\textsubscript{f}}
+	=
+	v\cos{(\theta+\delta)}
+	$
+	
+	$
+	\dot{y\textsubscript{f}}
+	=
+	v\sin{(\theta+\delta)}
+	$
+	
+	$
+	\dot{\theta}
+	=
+	\frac{v\sin{\delta}}{L}
+	$
+
+	\subsection{Center of Gravity (CG) Model}
+	
+	$
+	\dot{x\textsubscript{c}}
+	=
+	v\cos{(\theta+\beta)}
+	$
+	
+	$
+	\dot{y\textsubscript{c}}
+	=
+	v\sin{(\theta+\beta)}
+	$
+	
+	$
+	\dot{\theta}
+	=
+	\frac{v\cos{\beta}\tan{\delta}}{L}
+	$
+	
 
 \end{document}
