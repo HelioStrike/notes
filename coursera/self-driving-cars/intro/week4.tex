@@ -1,0 +1,212 @@
+\documentclass[titlepage, 12pt]{article}
+\usepackage[parfill]{parskip}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=blue,
+}
+
+\newcommand*{\logo}{\fbox{$\mathfrak{heliostriKe}$}}
+
+\begin{document}
+	
+	\begin{titlepage}
+		
+		\raggedleft
+		
+		\vspace*{\baselineskip}
+		
+		{Sai Sandeep\\\url{https://github.com/heliostrike/notes}}
+		
+		\vspace*{0.167\textheight}
+		
+		\textbf{\LARGE Notes on}\\[\baselineskip]
+		
+		\textbf{\textcolor{teal}{\huge Kinematic Modeling in 2D}}\\[\baselineskip]
+		
+		{\Large \textit{Vehicle Dynamic Modeling}}
+		
+		\vfill
+		
+		{\large \logo}
+		
+		\vspace*{3\baselineskip}
+		
+	\end{titlepage}
+
+	\newpage
+	
+	\section{Introduction}
+	The vectors $\{b\textsubscript{1}, b\textsubscript{2}\}$ and $\{e\textsubscript{1}, e\textsubscript{2}\}$ define 2 different coordinate frames, $F\textsubscript{B}$ and $F\textsubscript{E}$. The vectors are about the same point but differ by some rotation $\theta$.
+			
+	We can then define the rotation matrices as:
+	
+	$C\textsubscript{EB} = 
+	\begin{bmatrix}
+		\cos{\theta} & \sin{\theta} \\
+		-\sin{\theta} & \cos{\theta}
+	\end{bmatrix}
+	$
+
+	$C\textsubscript{BE} = 
+	\begin{bmatrix}
+		\cos{\theta} & -\sin{\theta} \\
+		\sin{\theta} & \cos{\theta}
+	\end{bmatrix}
+	$
+
+	\subsection{Coordinate Transformation}
+	
+	Conversion between body and inertial coordinates is done with a translation vector and a rotation matrix.
+	
+	$P\textsubscript{B} = C\textsubscript{EB} (\theta) P\textsubscript{E} + O\textsubscript{EB}$
+
+	$P\textsubscript{E} = C\textsubscript{BE} (\theta) P\textsubscript{B} + O\textsubscript{BE}$
+	
+	\subsection{Homogenous Coordinate Form}
+	
+	A 2D vector in can be converted to:
+	
+	$P = 
+	\begin{bmatrix}
+		x \\
+		y
+	\end{bmatrix}
+	\rightarrow
+	\bar{P} = 
+	\begin{bmatrix}
+		x \\
+		y \\
+		1
+	\end{bmatrix}
+	$
+	
+	Transforming using homogenous coordinates:
+	
+	$\bar{P\textsubscript{E}} = 
+	\begin{bmatrix}
+		C\textsubscript{EB}(\theta) | O\textsubscript{EB}
+	\end{bmatrix}
+	\bar{P\textsubscript{B}}
+	$
+	
+	\subsection{2D Kinematic Modeling}
+	
+	The kinematic constraint is nonholonomic.
+	\begin{enumerate}
+		\item A constraint on rate of change of degrees of freedom.
+		\item Vehicle velocity is always tangent to current path.
+	\end{enumerate}
+
+	$
+	\frac{dy}{dx}\
+	=
+	\tan{\theta}
+	=
+	\frac{\sin{\theta}}{\cos{\theta}}
+	$
+	
+	Non-holonomic constraint: $
+	\dot{y}\cos{\theta}
+	-
+	\dot{x}\sin{\theta}
+	= 0
+	$
+	
+	Velocity components: $
+	\dot{x}
+	= v\cos{\theta} 
+	$, 
+	$ 
+	\dot{y}
+	= v\sin{\theta}
+	$
+	
+	\section{Two - Wheeled Robot Kinematic Model}
+	Say control inputs are wheel speeds, $v\textsubscript{1}, v\textsubscript{2}$.
+	We'll need to define the following parameters.
+	
+	\begin{enumerate}
+	
+	\item Center: $p$
+	\item Wheel to center: $l$
+	\item Wheel radius: $r$
+	\item Wheel rotation rates: $w1, w2$
+		
+	\end{enumerate}
+
+	Average velocity can be computed as:
+	$
+	v = \frac{v\textsubscript{1} + v\textsubscript{2}}{2}
+	=
+	\frac{rw\textsubscript{1} + rw\textsubscript{2}}{2}
+	$
+	
+	If $v\textsubscript{1}$ and $v\textsubscript{2}$ and different, the vehicle moves along a curved path.
+	
+	The rotation about the ICR (Instantaneous center of rotation) is given by, $\omega = 
+	\frac{rw\textsubscript{1} - rw\textsubscript{2}}{2l}$
+	
+	\subsection{Kinematic Model of a Simple 2D Robot}
+	
+	\subsubsection{Continuous time model}
+	
+	$
+	\dot{x} = 
+	[
+	(\frac{rw\textsubscript{1} + rw\textsubscript{2}}{2})\cos(\theta)
+	]
+	$
+	
+	$
+	\dot{y} = 
+	[
+	(\frac{rw\textsubscript{1} + rw\textsubscript{2}}{2})\sin(\theta)
+	]
+	$
+	
+	$
+	\dot{\theta} = 
+	(
+	\frac{rw\textsubscript{1} - rw\textsubscript{2}}{2l}
+	)
+	$
+	
+	\subsubsection{Discrete time model}
+	
+	$
+	x\textsubscript{k+1}
+	=
+	x\textsubscript{k}
+	+
+	[
+	(\frac{rw\textsubscript{1,k} + rw\textsubscript{2,k}}{2})\cos(\theta\textsubscript{k})
+	]\delta{t}
+	$
+	
+	$
+	y\textsubscript{k+1}
+	=
+	y\textsubscript{k}
+	+
+	[
+	(\frac{rw\textsubscript{1,k} + rw\textsubscript{2,k}}{2})\sin(\theta\textsubscript{k})
+	]\delta{t}
+	$
+
+	$
+	\theta\textsubscript{k+1} =
+	\theta\textsubscript{k}
+	+ 
+	(
+	\frac{rw\textsubscript{1,k} - rw\textsubscript{2,k}}{2l}
+	)\delta{t}
+	$
+
+\end{document}
